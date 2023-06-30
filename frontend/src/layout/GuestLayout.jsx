@@ -10,9 +10,10 @@ const GuestLayout = () => {
   }
 
   return (
-    <div>
-      <h2>Only for guest layout</h2>
-      <Outlet />
+    <div className='login-signup-form'>
+      <div className='form'>
+        <Outlet />
+      </div>
     </div>
   )
 }
