@@ -10,6 +10,7 @@ const Signup = lazy(() => import('./pages/Signup'))
 const Users = lazy(() => import('./pages/Users'))
 const NotFound = lazy(() => import('./pages/NotFound'))
 const Dashboard = lazy(() => import('./pages/Dashboard'))
+const UserForm = lazy(() => import('./pages/UserForm'))
 
 export const router = createBrowserRouter([
   {
@@ -37,7 +38,9 @@ export const router = createBrowserRouter([
     children: [
       { index: true, element: <Users /> },
       { path: '/dashboard', element: <Dashboard /> },
-      { path: '/users', element: <Users /> }
+      { path: '/users', element: <Users /> },
+      { path: '/users/new', element: <UserForm key='userCreate' /> },
+      { path: '/users/:id', element: <UserForm key='userUpdate' /> }
     ]
   }
 ])
