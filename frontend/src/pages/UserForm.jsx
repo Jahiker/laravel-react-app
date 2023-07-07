@@ -1,14 +1,13 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useContext } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 
 import axiosClient from '../axios-client'
+import { StateContext } from '../context/ContextProvider'
 
 const UserForm = () => {
-  const { id } = useParams()
+  const { setNotification } = useContext(StateContext)
   const navigate = useNavigate()
-
-  const [loading, setLoading] = useState(false)
-  const [errors, setErrors] = useState(null)
+  const { id } = useParams()
   const [user, setUser] = useState({
     id: null,
     name: '',
@@ -16,6 +15,8 @@ const UserForm = () => {
     password: '',
     password_confirmation: ''
   })
+  const [errors, setErrors] = useState(null)
+  const [loading, setLoading] = useState(false)
 
   useEffect(() => {
     if (id) {
@@ -41,11 +42,13 @@ const UserForm = () => {
   const onSubmit = (e) => {
     e.preventDefault()
 
+    setErrors(null)
+
     if (user.id) {
       axiosClient
         .put(`/users/${user.id}`, user)
         .then(() => {
-          //   setNotification('User was successfully updated')
+          setNotification('User was successfully updated!')
           navigate('/users')
         })
         .catch((err) => {
@@ -56,15 +59,9 @@ const UserForm = () => {
         })
     } else {
       axiosClient
-        .post('/users', {
-          name: user.name,
-          email: user.email,
-          password: user.password,
-          password_confirmation: user.password_confirmation
-
-        })
+        .post('/users', user)
         .then(() => {
-          //   setNotification('User was successfully created')
+          setNotification('User was successfully created!')
           navigate('/users')
         })
         .catch((err) => {
